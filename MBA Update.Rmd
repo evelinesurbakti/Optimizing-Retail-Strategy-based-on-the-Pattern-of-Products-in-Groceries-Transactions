@@ -1,0 +1,202 @@
+---
+output: 
+  html_document:
+    toc: true
+    toc_float: 
+      collapsed: false
+      smooth_scroll: true
+    number_sections: true
+    theme: flatly
+    highlight: tango
+    df_print: paged
+    code_folding: hide
+---
+
+# __Market Basket Analysis__
+
+Market Basket Analysis commonly use in the retail industry to identify or detect any patterns in customers transactions. This Online Retail II data set contains all the transactions occurring for a UK-based and registered, non-store online retail between 01/12/2009 and 09/12/2011.The company mainly sells unique all-occasion gift-ware. Many customers of the company are wholesalers.
+
+Full dataset: <https://archive.ics.uci.edu/ml/datasets/Online+Retail+II#>
+
+```{r,message=FALSE}
+# Load relevant libraries
+library(arules)
+library(arulesViz)
+library(tidyverse)
+library(knitr)
+library(readxl)
+library(ggplot2)
+library(lubridate)
+library(plyr)
+library(dplyr)
+```
+
+## __Apriori Algorithm__
+
+__Apriori algorithm__ or we also can call it __association rules mining__, will take the data as the transaction object on which mining is to be applied. Before we discuss deeper about the algorithm, there are three terms that we should know. 
+
+__Support__ indicates the probability that a randomly chosen transaction contains both item A and B. The higher support gives more benefit into business when they use it to make a product package or combination.
+
+$$
+\begin{align}
+    Support(A\Rightarrow B) &=Pr(A,B)&=\dfrac{n(A,B)}{N}
+\end{align}
+$$
+
+From the formula, support of A and B is the probability of the frequencies of product A and B together in one transaction compare to the whole number of transactions. More frequent the transaction, the higher its support would be. 
+
+__Confidence__ is the probability that an product B is purchased in a randomly chosen transaction given that product A has been purchased.
+
+$$
+\begin{align}
+    Confidence(A\Rightarrow B) &=Pr(B|A)&=\dfrac{n(A,B)}{n(A)}
+\end{align}
+$$
+
+The confidence indicates the direction for cross-selling, it shows how 'sure' we are that product A and B be bought together by comparing the number of transactions those have product A and B with the number of transactions whose product A. 
+
+__Lift__ indicates the strength of the relationship between the products. When the value of lift is greater than 1, it indicates a higher relationship. 
+
+$$
+\begin{align}
+    Lift(A\Rightarrow B) &=\dfrac{Pr(A,B)}{Pr(A)Pr(B)}&=\dfrac{Pr(B|A)}{Pr(B)}
+\end{align}
+$$
+```{r, message=FALSE}
+# Load the gdata and rio packages
+library(gdata)
+library(rio)
+```
+
+
+```{r}
+# Specification of url
+url <- "http://archive.ics.uci.edu/ml/machine-learning-databases/00352/Online%20Retail.xlsx"
+data = rio::import(url)
+```
+
+```{r}
+colnames(data)
+head(data)
+complete_data<- data[complete.cases(data), ]
+```
+
+```{r}
+# keep relevant columns
+keeps <- c("InvoiceNo","Description","Country")
+df = complete_data[keeps]
+df = df[!grepl("C",df$InvoiceNo),]
+```
+
+
+```{r}
+library(plyr)
+country<-count(df, 'Country')
+which.max(country$freq)
+country[35,]
+```
+
+
+```{r}
+newdf <- df[which(df$Country=='United Kingdom'), ]
+head(df)
+```
+
+```{r, include=FALSE}
+# TRANFORMING THE DATA
+transactionData <- ddply(newdf,c("InvoiceNo"),
+                       function(df1)paste(df1$Description,
+                       collapse = ","))
+
+#set column order_number of dataframe transactionData
+transactionData$Description <- NULL
+#Rename column to items
+colnames(transactionData) <- c("items")
+#Show Dataframe transactionData
+transactionData
+```
+
+```{r, include=FALSE}
+#save the data into csv
+write.csv(transactionData,"market_basket.csv", quote = FALSE, row.names = FALSE)
+#read the data
+#sep tell how items are separated. In this case we have separated using ','
+transaction <- read.transactions('market_basket.csv', format = 'basket', sep=',')
+```
+
+```{r, message=FALSE}
+trObj<-as(transaction,"transactions")
+```
+
+From the original data, the products are grouped into one transaction based on the transaction id (InvoiceNo) and be transformed into the transactions data. Here is the summary of the transaction data. 
+
+```{r}
+summary(transaction)
+```
+
+
+From the summary, we have "WHITE HANGING HEART T-LIGHT HOLDER" with the highest frequency.
+
+By using `apriori` function from `arules` package we will make the association rules. The parameter allows us to set the minimum support and the minimum confidence. Setting the both parameters is important for two reasons:
+
+– It should be high enough to make the better cross-selling opportunity. Cross-selling products with very small revenue is probably not worth the effort. 
+
+– The product combinations with the low support are rare combinations means the pattern is not common.
+
+After the tuning, the possible association rules are created as follow. 
+
+```{r}
+# Key Function
+association.rules <- apriori(transaction, 
+                             parameter = list(supp=0.020, 
+                                              conf=0.700, maxlen=2))
+```
+
+We sort the association rule and inspect the element. 
+
+```{r}
+# Rules order by confidence
+association.rules.confidence <- sort(association.rules, by = "confidence")
+inspect(association.rules.confidence) 
+```
+
+
+
+## __Visualizing Association Rules__ {.tabset .tabset-fade .tabset-pills}
+
+Preparing the data for the visualization. 
+
+```{r}
+# Filter rules with confidence greater than 0.4 or 40%
+subRules<-association.rules[quality(association.rules)$confidence > 0.2]
+```
+
+### __Interactive Scatter-Plot__
+
+The scatter plot shows the lift for each rule. 
+
+```{r, message=FALSE}
+plotly_arules(subRules)
+```
+
+### __Graph-Based Visualizations__
+
+With this plot, we can see the arrow as a relationship between products. The size of rule is getting bigger as the lift increase. 
+
+```{r}
+# choose the top 10
+top10subRules <- head(subRules, n = 10, by = "confidence")
+plot(top10subRules, method = "graph",  engine = "htmlwidget")
+```
+
+### __Individual Rule Representation__
+
+This representation is also called as Parallel Coordinates Plot. It is useful to visualized which products along with which items cause what kind of sales.
+
+```{r}
+subRules2<-head(subRules, n=10, by="lift")
+plot(subRules2, method="paracoord")
+```
+
+Look at the topmost arrow. It shows that when I have 'ROSES' in my shopping cart, I am likely to buy 'GREEN' along with these as well.
+
