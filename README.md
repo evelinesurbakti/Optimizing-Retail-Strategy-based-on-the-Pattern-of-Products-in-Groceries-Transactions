@@ -27,13 +27,14 @@ As you can see from the first 5 observations below, we have a clean description 
 
 - After removing the observation with negative quantity value and make sure all of the data is completed. Here is the final condition of the clean and ready to use data, the final data count ended up being 397942.
 
+<p align="center">
 ![](./image/DropNA.png)
+</p>
 
 - Check the country with the highest number of observations
 <p align="center">
 <img src="./image/Countrylist.JPG" width="250" height="200"/>
 </p>
-
 
 # PROBLEM STATEMENT
 I have interest with UK data since it has a highest number of observations and also Ireland data. Both countries are situated next to each another and we want to see whether they will have the same result or not. In the following explanation we will see the difference between them and how to model the association rules of products for both countries. But before that, we will have a brief description about the Apriori algorithm and how to use it. 
@@ -89,14 +90,18 @@ The result is sorted based on lift in descending order, means the strength of re
 ![](./image/rules_UK.JPG)
 
 Here is top 4 rules based on their value of lift. 
+<p align="center">
 ![](./image/scatterplot.gif)
+</p>
 
 <p align="center">
-<img align="center" width="430" height="380" src="./image/parallelplot.JPG">
+<img align="center" width="470" height="380" src="./image/parallelplot.JPG">
 </p>
 
 And also a graph to show the relationship between the products. 
+<p align="center">
 ![](./image/graph.gif)
+</p>
 
 Association rules are normally written like this: {ROSES REGENCY TEACUP AND SAUCER, GREEN REGENCY TEACUP AND SAUCER} -> {PINK REGENCY TEACUP AND SAUCER} which means that there is a strong relationship between products: "ROSES REGENCY TEACUP AND SAUCER, GREEN REGENCY TEACUP AND SAUCER" and "PINK REGENCY TEACUP AND SAUCER" since customers purchased them in the same transaction.
 
@@ -132,7 +137,7 @@ As an example, the first rule shows when "ROSES REGENCY TEACUP AND SAUCER, GREEN
 After the same process is done with the Ireland data, we have the result of the most frequent items in Ireland. 
 
 <p align="center">
-<img align="center" width="430" height="380" src="./image/frequent_itemsets_IE.JPG">
+<img align="center" width="500" height="380" src="./image/frequent_itemsets_IE.JPG">
 </p>
 
 Irish loves carriage as it is the first rank of most frequent item, follows by "REGENCY CAKESTAND 3 TIER" which is the third rank on most frequent list in UK data set. Both countries seems to share the same interest with the cakestand. 
@@ -149,9 +154,11 @@ The result is sorted based on lift in descending order, means the strength of re
 ![](./image/rules_IE.JPG)
 
 ## Conclusion
-We have done Association Rules Analysis using an actual online retail transaction data from UK and Ireland. The result of this market basket analysis could be used for the optimization of retail strategy. There are marketing insights that we can optimize, in this case we will briefly discuss the principle of Marketing Mix for the items with a strong relationship:
+We have done Association Rules Analysis using an actual online retail transaction data from UK and Ireland. The result of this market basket analysis could be used for the optimization of retail strategy. There are marketing insights that we can optimize, here is the principle of Marketing Mix for the items with a strong relationship:
 - Place: We can put the items with strong relationship close to each other, in this case we can design their image close to each other on the webpage.
 - Promotion: We can put them together with additional discount or create a new promotion strategy
 - Price: We can calculate the pricing strategy for the products. 
 
+In UK wholesalers, I recommend to put these types of teacup and saucer: ROSES REGENCY, GREEN REGENCY and PINK REGENCY next to one another. Another recommendation, they can give a discount price for ROSES REGENCY or GREEN REGENCY when the customers plan to buy the PINK REGENCY. Best of all, the customers would be happy to pay a lower price for the product bundling consist of these teacups and saucers. 
 
+While in Ireland, I recommend to 
