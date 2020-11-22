@@ -113,9 +113,7 @@ As for the visualization, here is top 4 rules based on their value of lift.
 
 ![](./image/scatterplot.gif)
 
-<p align="center">
-<img align="center" width="470" height="380" src="./image/parallelplot.JPG">
-</p>
+<img width="470" height="380" src="./image/parallelplot.JPG">
 
 And also a graph to show the relationship between the products where the arrows and rules with darker red color has higher lift. 
 ![](./image/graph.gif)
