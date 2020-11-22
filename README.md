@@ -2,7 +2,7 @@
 
 ### Introduction
 
-A simple groceries list or maybe a receipt provides a pattern of buying behavior of customers. It provides the relationship between products and the chance to inform business decisions such as product placement or even combination packages in order to maximize profits. So, what kind of relationship of product that we have in UK wholesalers? How can that information be used to help business decisions making?
+A simple groceries list or a receipt provides a pattern of buying behavior of customers. It shows the relationship between products and the chance to inform business decisions such as product placement or even combination packages in order to maximize profits. So, what kind of relationship of product that we have in UK and Ireland wholesalers? How can that information be used to help business decisions making?
 
 This project has the following goal:
 Find a strong relationship between products that leads to the most profitable product combination. 
@@ -34,12 +34,12 @@ As you can see from the first 5 observations below, we have a clean description 
 <img src="./image/Countrylist.JPG" width="250" height="200"/>
 </p>
 
-The data set of UK has a highest number of observations and also we will use Ireland data set. Both countries are situated next to each another and we want to see whether they will have the same result or not. In the following explanation we will see the difference between them and how to model the association rules of products for both countries. But before that, we will have a brief description about the Apriori algorithm and how to use it. 
+The data set of UK has a highest number of observations and also we will use Ireland data set. Both countries are situated next to each another and we want to see whether they have the same pattern or not. In the following explanation we will see the difference between them and how to model the association rules of products for both countries. But before that, we will have a brief description about the Apriori algorithm, why we use it and how to use it. 
 
 ## Apriori Algorithm
 **Apriori algorithm** or we also can call it association rules mining, will take the data as the transaction object on which mining is to be applied. Before we discuss deeper about the algorithm, there are three terms that we should know: Support, Lift and Confidence. 
 
-The main reason we use Apriori Algorithm is because it uses a breadth-first search strategy to count the support of itemsets and uses a candidate generation function which exploits the downward closure property of support. It considers every combination and all length of transactions (while we also can set it arbitrarily).
+The main reason we use Apriori Algorithm is because it uses a breadth-first search strategy to count the support of itemsets and uses *a candidate generation function* which exploits the downward closure property of support. It considers every combination and all length of transactions (while we also can set it arbitrarily).
 
 **Support** indicates the probability that a randomly chosen transaction contains both item A and B. The higher support gives more benefit into business when they use it to make a product package or combination.
 
@@ -80,7 +80,7 @@ Then, what is the most frequent product in UK? The answer is "WHITE HANGING HEAR
 
 ### The Customers in UK tend to buy the Teacup with Various Colours
 
-In constructing the Apriori algorithm, we have to set the minimum support and also the minimum confidence into the apriori function from MLxtend.
+In constructing the Apriori algorithm, we have to set the minimum support and also the minimum confidence into the apriori function from **MLxtend**.
 We set the confidence as 70% as we have a large number of observations for UK, and 2% for the support. 
 
 ![](./image/rules_UK_code.JPG)
@@ -88,7 +88,28 @@ We set the confidence as 70% as we have a large number of observations for UK, a
 The result is sorted based on lift in descending order, means the strength of relationship is sorted from the strongest and weaker as the lift is getting smaller.  
 ![](./image/rules_UK.JPG)
 
-Here is top 4 rules based on their value of lift. 
+Association rules are normally written like this: {ROSES REGENCY TEACUP AND SAUCER, GREEN REGENCY TEACUP AND SAUCER} -> {PINK REGENCY TEACUP AND SAUCER} which means that there is a strong relationship between products: "ROSES REGENCY TEACUP AND SAUCER, GREEN REGENCY TEACUP AND SAUCER" and "PINK REGENCY TEACUP AND SAUCER" since customers purchased them in the same transaction.
+
+In the above example, the {ROSES REGENCY TEACUP AND SAUCER , GREEN REGEN...	} is the antecedent and the {PINK REGENCY TEACUP AND SAUCER} is the consequent. Both antecedents and consequents can have multiple items. In other words, {ROSES REGENCY TEACUP AND SAUCER, GREEN REGENCY TEACUP AND SAUCER, etc} -> {PINK REGENCY TEACUP AND SAUCER, etc} is still a valid rule.
+
+*Support* of (ROSES REGENCY TEACUP AND SAUCER, GREEN REGENCY TEACUP AND SAUCER) and PINK REGENCY TEACUP AND SAUCER is 0.022177, it means they appear together in 2.2177% of transactions. In other words, on 10000 transactions there are on average 2.2 transactions with both together. The value seems to be very 'low' because of the size of data. We will see more 'impactful' insight with Ireland data set. 
+
+*Confidence* is the percentage of transactions that contain the two products together, out of the transactions containing one of the two products. As a consequence, there are always two confidence numbers for each couple of products.
+
+Confidence is useful because it gives the direction of the cross-selling. We can make the hypothesis that it’s easier to sell ‘ROSES REGENCY TEACUP AND SAUCER’ to someone buying ‘GREEN REGENCY TEACUP AND SAUCER’, with confidence up tp 77.78% compared to the opposite (only 70.5%).
+
+However, we should keep in mind that the high-confidence rules can be misleading, because the confidence measure ignores the support of the product appearing in B. Lift measure overcomes this problem, as it considers the support of both products A and B in the ratio.
+
+*Lift* gives the strength of the relationship between two products. The rule of thumbs:
+- When lift is 0 - 1, there is no relationship.
+- When lift is more than 1, the products have a positive relationship, the customer buy the products more frequently than it would happen.
+- When lift is lower than 0, the customers buy the products less frequently than it would happen.
+
+Lift measures the extent to which A and B are not independent and despite having the same value, the interpretation of the two lift values should not be the same because the maximum attainable value is different
+
+As an example, the first rule shows when "ROSES REGENCY TEACUP AND SAUCER, GREEN REGENCY TEACUP AND SAUCER" are together with "PINK REGENCY TEACUP AND SAUCER" , it has a Lift of 22.53, meaning that consumers buy them together about ~22.5 more times than it would happen by chance. This is a very strong relationship.
+
+As for the visualization, here is top 4 rules based on their value of lift. 
 
 ![](./image/scatterplot.gif)
 
@@ -96,39 +117,10 @@ Here is top 4 rules based on their value of lift.
 <img align="center" width="470" height="380" src="./image/parallelplot.JPG">
 </p>
 
-And also a graph to show the relationship between the products. 
+And also a graph to show the relationship between the products where the arrows and rules with darker red color has higher lift. 
 ![](./image/graph.gif)
 
-Association rules are normally written like this: {ROSES REGENCY TEACUP AND SAUCER, GREEN REGENCY TEACUP AND SAUCER} -> {PINK REGENCY TEACUP AND SAUCER} which means that there is a strong relationship between products: "ROSES REGENCY TEACUP AND SAUCER, GREEN REGENCY TEACUP AND SAUCER" and "PINK REGENCY TEACUP AND SAUCER" since customers purchased them in the same transaction.
-
-In the above example, the {ROSES REGENCY TEACUP AND SAUCER , GREEN REGEN...	} is the antecedent and the {PINK REGENCY TEACUP AND SAUCER} is the consequent. Both antecedents and consequents can have multiple items. In other words, {ROSES REGENCY TEACUP AND SAUCER, GREEN REGENCY TEACUP AND SAUCER, etc} -> {PINK REGENCY TEACUP AND SAUCER, etc} is still a valid rule.
-
-**Support**
-
-Using the result above, (ROSES REGENCY TEACUP AND SAUCER, GREEN REGENCY TEACUP AND SAUCER) and PINK REGENCY TEACUP AND SAUCER appear together in 2.2177% of transactions therefore their support is 0.022177. In other words, on 10000 transactions there are on average 2.2 transactions with both together. The value seems to be small because of the size of data. We will see more 'impactful' insight with Ireland data set. 
-
-**Confidence**
-
-Confidence is the percentage of transactions that contain the two products together, out of the transactions containing one of the two products. As a consequence, there are always two confidence numbers for each couple of products.
-
-Confidence is useful because it gives the direction of the cross-selling. We can make the hypothesis that it’s easier to sell ‘ PINK REGENCY TEACUP AND SAUCER’ to someone buying ‘GREEN REGENCY TEACUP AND SAUCER’, with confidence up tp 77.78% compared to the opposite (only 70.5%).
-
-However, we should keep in mind that the high-confidence rules can be misleading, because the confidence measure ignores the support of the product appearing in B. Lift measure overcomes this problem, as it considers the support of both products A and B in the ratio.
-
-**Lift**
-
-Lift gives the strength of the relationship between two products. The rule of thumbs:
-
-When lift is 0 - 1, there is no relationship.
-When lift is more than 1, the products have a positive relationship, the customer buy the products more frequently than it would happen.
-When lift is lower than 0, the customers buy the products less frequently than it would happen.
-
-Lift measures the extent to which A and B are not independent and despite having the same value, the interpretation of the two lift values should not be the same because the maximum attainable value is different
-
-As an example, the first rule shows when "ROSES REGENCY TEACUP AND SAUCER, GREEN REGENCY TEACUP AND SAUCER" are together with "PINK REGENCY TEACUP AND SAUCER" , it has a Lift of 22.53, meaning that consumers buy them together about ~22.5 more times than it would happen by chance. This is a very strong relationship.
-
-
-## Association Rules Analysis of Ireland (IE or EIRE) Data Set
+## Association Rules Analysis of Ireland (EIRE) Data Set
 
 After the same process is done with the Ireland data, we have the result of the most frequent items in Ireland. 
 
@@ -136,21 +128,18 @@ After the same process is done with the Ireland data, we have the result of the 
 <img align="center" width="500" height="380" src="./image/frequent_itemsets_IE.JPG">
 </p>
 
-Irish loves carriage as it is the first rank of most frequent item, follows by "REGENCY CAKESTAND 3 TIER" which is the third rank on most frequent list in UK data set. Both countries seems to share the same interest with the cakestand. 
+Irish love carriage as it is the first rank of most frequent item, follows by "REGENCY CAKESTAND 3 TIER" which is the third rank on most frequent list in UK data set. Both countries seems to share the same interest with the cakestand. 
 
 ### The Customers in Ireland tend to buy the Cakestand
-For Ireland data set, the setting of minimum support and minimum confidence are changed since the number of observations is smaller rather than UK data set. 
+For Ireland data set, the setting of minimum support and minimum confidence are changed since the number of observations is smaller rather than the UK data set. 
 
-We set the confidence as 95% as we have smaller number of observations rather UK, and increase minimum support into 7%. 
-
-The result is sorted based on lift in descending order, means the strength of relationship is sorted from the strongest and weaker as the lift is getting smaller.  
+We set the confidence as 95% (before is 70%) as we have smaller number of observations rather UK, and increase minimum support from 2% into 7%. 
 
 ![](./image/rules_IE_code.JPG)
 
 ![](./image/rules_IE.JPG)
 
-
-
+There are three rules with confidence value equal to 1.0. These rules are very important and the items should have a high priorities in the marketing strategy. 
 
 ## Conclusion
 We have done Association Rules Analysis using an actual online retail transaction data from UK and Ireland. The result of this market basket analysis could be used for the optimization of retail strategy. There are marketing insights that we can optimize, here is the principle of Marketing Mix for the items with a strong relationship:
