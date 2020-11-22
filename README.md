@@ -141,10 +141,10 @@ There are three rules with confidence value equal to 1.0. These rules are very i
 
 ## Conclusion
 We have done Association Rules Analysis using an actual online retail transaction data from UK and Ireland. The result of this market basket analysis could be used for the optimization of retail strategy. There are marketing insights that we can optimize, here is the principle of Marketing Mix for the items with a strong relationship:
-- Place: We can put the items with strong relationship close to each other, in this case we can design their image close to each other on the webpage.
-- Promotion: We can put them together with additional discount or create a new promotion strategy
+- Place: We can put the items with strong relationship close to each other, in this case we can design their image close to each other on the webpage,
+- Promotion: We can put them together with additional discount or create a new promotion strategy, and
 - Price: We can calculate the pricing strategy for the products. 
 
 For UK wholesalers, I recommend to put these types of teacup and saucer: ROSES REGENCY, GREEN REGENCY and PINK REGENCY next to one another. Another recommendation, they can give a discount price for ROSES REGENCY or GREEN REGENCY when the customers plan to buy the PINK REGENCY. Best of all, the customers would be happy to pay a lower price for the product bundling consist of these teacups and saucers. 
 
-For Ireland, I recommend to 
+For Ireland wholesalers, the analysis of association rules show that both ROSES REGENCY and REGENCY CAKESTAND 3 TIER has confidence value = 1.0. The marketing strategy should combine both items in product bundling and discount promotion. 
