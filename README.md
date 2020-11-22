@@ -27,20 +27,19 @@ As you can see from the first 5 observations below, we have a clean description 
 
 - After removing the observation with negative quantity value and make sure all of the data is completed. Here is the final condition of the clean and ready to use data, the final data count ended up being 397942.
 
-<p align="center">
 ![](./image/DropNA.png)
-</p>
 
 - Check the country with the highest number of observations
 <p align="center">
 <img src="./image/Countrylist.JPG" width="250" height="200"/>
 </p>
 
-# PROBLEM STATEMENT
-I have interest with UK data since it has a highest number of observations and also Ireland data. Both countries are situated next to each another and we want to see whether they will have the same result or not. In the following explanation we will see the difference between them and how to model the association rules of products for both countries. But before that, we will have a brief description about the Apriori algorithm and how to use it. 
+The data set of UK has a highest number of observations and also we will use Ireland data set. Both countries are situated next to each another and we want to see whether they will have the same result or not. In the following explanation we will see the difference between them and how to model the association rules of products for both countries. But before that, we will have a brief description about the Apriori algorithm and how to use it. 
 
 ## Apriori Algorithm
-**Apriori algorithm** or we also can call it association rules mining, will take the data as the transaction object on which mining is to be applied. Before we discuss deeper about the algorithm, there are three terms that we should know: Support, 
+**Apriori algorithm** or we also can call it association rules mining, will take the data as the transaction object on which mining is to be applied. Before we discuss deeper about the algorithm, there are three terms that we should know: Support, Lift and Confidence. 
+
+The main reason we use Apriori Algorithm is because it uses a breadth-first search strategy to count the support of itemsets and uses a candidate generation function which exploits the downward closure property of support. It considers every combination and all length of transactions (while we also can set it arbitrarily).
 
 **Support** indicates the probability that a randomly chosen transaction contains both item A and B. The higher support gives more benefit into business when they use it to make a product package or combination.
 
@@ -90,18 +89,15 @@ The result is sorted based on lift in descending order, means the strength of re
 ![](./image/rules_UK.JPG)
 
 Here is top 4 rules based on their value of lift. 
-<p align="center">
+
 ![](./image/scatterplot.gif)
-</p>
 
 <p align="center">
 <img align="center" width="470" height="380" src="./image/parallelplot.JPG">
 </p>
 
 And also a graph to show the relationship between the products. 
-<p align="center">
 ![](./image/graph.gif)
-</p>
 
 Association rules are normally written like this: {ROSES REGENCY TEACUP AND SAUCER, GREEN REGENCY TEACUP AND SAUCER} -> {PINK REGENCY TEACUP AND SAUCER} which means that there is a strong relationship between products: "ROSES REGENCY TEACUP AND SAUCER, GREEN REGENCY TEACUP AND SAUCER" and "PINK REGENCY TEACUP AND SAUCER" since customers purchased them in the same transaction.
 
@@ -109,7 +105,7 @@ In the above example, the {ROSES REGENCY TEACUP AND SAUCER , GREEN REGEN...	} is
 
 **Support**
 
-Using the result above, (ROSES REGENCY TEACUP AND SAUCER, GREEN REGENCY TEACUP AND SAUCER) and PINK REGENCY TEACUP AND SAUCER appear together in 2.2177% of transactions therefore their support is 0.022177. In other words, on 10000 transactions there are on average 2.2 transactions with both together. 
+Using the result above, (ROSES REGENCY TEACUP AND SAUCER, GREEN REGENCY TEACUP AND SAUCER) and PINK REGENCY TEACUP AND SAUCER appear together in 2.2177% of transactions therefore their support is 0.022177. In other words, on 10000 transactions there are on average 2.2 transactions with both together. The value seems to be small because of the size of data. We will see more 'impactful' insight with Ireland data set. 
 
 **Confidence**
 
@@ -153,12 +149,15 @@ The result is sorted based on lift in descending order, means the strength of re
 
 ![](./image/rules_IE.JPG)
 
+
+
+
 ## Conclusion
 We have done Association Rules Analysis using an actual online retail transaction data from UK and Ireland. The result of this market basket analysis could be used for the optimization of retail strategy. There are marketing insights that we can optimize, here is the principle of Marketing Mix for the items with a strong relationship:
 - Place: We can put the items with strong relationship close to each other, in this case we can design their image close to each other on the webpage.
 - Promotion: We can put them together with additional discount or create a new promotion strategy
 - Price: We can calculate the pricing strategy for the products. 
 
-In UK wholesalers, I recommend to put these types of teacup and saucer: ROSES REGENCY, GREEN REGENCY and PINK REGENCY next to one another. Another recommendation, they can give a discount price for ROSES REGENCY or GREEN REGENCY when the customers plan to buy the PINK REGENCY. Best of all, the customers would be happy to pay a lower price for the product bundling consist of these teacups and saucers. 
+For UK wholesalers, I recommend to put these types of teacup and saucer: ROSES REGENCY, GREEN REGENCY and PINK REGENCY next to one another. Another recommendation, they can give a discount price for ROSES REGENCY or GREEN REGENCY when the customers plan to buy the PINK REGENCY. Best of all, the customers would be happy to pay a lower price for the product bundling consist of these teacups and saucers. 
 
-While in Ireland, I recommend to 
+For Ireland, I recommend to 
