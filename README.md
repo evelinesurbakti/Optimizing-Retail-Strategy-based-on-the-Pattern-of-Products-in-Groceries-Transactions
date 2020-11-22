@@ -34,6 +34,8 @@ As you can see from the first 5 observations below, we have a clean description 
 <img src="./image/Countrylist.JPG" width="250" height="200"/>
 </p>
 
+
+# PROBLEM STATEMENT
 I have interest with UK data since it has a highest number of observations and also Ireland data. Both countries are situated next to each another and we want to see whether they will have the same result or not. In the following explanation we will see the difference between them and how to model the association rules of products for both countries. But before that, we will have a brief description about the Apriori algorithm and how to use it. 
 
 ## Apriori Algorithm
@@ -89,7 +91,9 @@ The result is sorted based on lift in descending order, means the strength of re
 Here is top 4 rules based on their value of lift. 
 ![](./image/scatterplot.gif)
 
-![](./image/parallelplot.JPG)
+<p align="center">
+<img align="center" width="430" height="380" src="./image/parallelplot.JPG">
+</p>
 
 And also a graph to show the relationship between the products. 
 ![](./image/graph.gif)
@@ -97,7 +101,6 @@ And also a graph to show the relationship between the products.
 Association rules are normally written like this: {ROSES REGENCY TEACUP AND SAUCER, GREEN REGENCY TEACUP AND SAUCER} -> {PINK REGENCY TEACUP AND SAUCER} which means that there is a strong relationship between products: "ROSES REGENCY TEACUP AND SAUCER, GREEN REGENCY TEACUP AND SAUCER" and "PINK REGENCY TEACUP AND SAUCER" since customers purchased them in the same transaction.
 
 In the above example, the {ROSES REGENCY TEACUP AND SAUCER , GREEN REGEN...	} is the antecedent and the {PINK REGENCY TEACUP AND SAUCER} is the consequent. Both antecedents and consequents can have multiple items. In other words, {ROSES REGENCY TEACUP AND SAUCER, GREEN REGENCY TEACUP AND SAUCER, etc} -> {PINK REGENCY TEACUP AND SAUCER, etc} is still a valid rule.
-
 
 **Support**
 
