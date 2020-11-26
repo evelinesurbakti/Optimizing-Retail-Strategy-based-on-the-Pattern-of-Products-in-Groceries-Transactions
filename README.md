@@ -92,7 +92,7 @@ Association rules are normally written like this: {ROSES REGENCY TEACUP AND SAUC
 
 In the above example, the {ROSES REGENCY TEACUP AND SAUCER , GREEN REGEN...	} is the antecedent and the {PINK REGENCY TEACUP AND SAUCER} is the consequent. Both antecedents and consequents can have multiple items. In other words, {ROSES REGENCY TEACUP AND SAUCER, GREEN REGENCY TEACUP AND SAUCER, etc} -> {PINK REGENCY TEACUP AND SAUCER, etc} is still a valid rule.
 
-*Support* of (ROSES REGENCY TEACUP AND SAUCER, GREEN REGENCY TEACUP AND SAUCER) and PINK REGENCY TEACUP AND SAUCER is 0.022177, it means they appear together in 2.2177% of transactions. In other words, on 10000 transactions there are on average 2.2 transactions with both together. The value seems to be very 'low' because of the size of data. We will see more 'impactful' insight with Ireland data set. 
+*Support* of (ROSES REGENCY TEACUP AND SAUCER, GREEN REGENCY TEACUP AND SAUCER) and PINK REGENCY TEACUP AND SAUCER is 0.022177, it means they appear together in 2.2177% of transactions. In other words, on 10000 transactions there are on average 221.77 transactions with both together. 
 
 *Confidence* is the percentage of transactions that contain the two products together, out of the transactions containing one of the two products. As a consequence, there are always two confidence numbers for each couple of products.
 
